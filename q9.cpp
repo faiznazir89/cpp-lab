@@ -20,7 +20,27 @@ public:
 		}
 	
 };
-class Book : public Publication
+class Publication2 : public Publication
+{
+    int dd,mm,yyyy;
+    public:
+    char c;
+    Publication2():dd(0),mm(0),yyyy(0)
+    {}
+    void getdata()
+    {
+        
+        cout<<"Enter the date of publication in (dd/mm/yyyy) format"<<endl;
+        cin>>dd>>c>>mm>>c>>yyyy;
+    }
+    void display()
+    {
+        cout<<"Date of publication : "<<dd<<c<<mm<<c<<yyyy;
+    }
+
+};
+
+class Book : public Publication2
 {
 	int pagecount;
     public:
@@ -29,16 +49,18 @@ class Book : public Publication
 		Publication::getdata();
 		cout<<"enter the pagrcount"<<endl;
 		cin>>pagecount;
+        Publication2::getdata();
 	}
     void display()
 		{
 			Publication::display();
 			cout<<"pagecount : "<<pagecount;
+            Publication2::display();
 		}
 	
 
 };
-class Tape: public Publication
+class Tape: public Publication2
 {
 	float playingtime;
   public:
@@ -47,11 +69,13 @@ class Tape: public Publication
 		  Publication::getdata();
   		cout<<"Enter the playing time "<<endl;
   		cin>>playingtime;
+          Publication2::getdata();
   	}
   	void display()
   	{
 		  Publication::display();
   		cout<<"playing time : "<<playingtime;
+          Publication::display();
   	}
 };
 int main()

@@ -1,41 +1,62 @@
+#include <iostream>
+#include<stdlib.h>
+#include<string.h>
 
-
-#include "iostream"
-#include "string.h"
-#include "stdlib.h"
 using namespace std;
-/////////////////////////////////////////////////////////////////////////////////////////
 class String
 {
-            private:
-                        enum { SZ=80 };
-                        char str[SZ];
-            public:
-                        String()
-                                    {           strcpy(str, "");          }
-                        String( char s[ ] )
-                                    {           strcpy(str, s);           }
-                        void display() const
-                                    {           cout << str <<endl;     }
-                        String operator += (String ss) 
-                        {
-                                    String temp;
-                                    if( strlen(str) + strlen(ss.str) < SZ )
-                                    {
-                                                strcpy(temp.str, str);
-                                                strcat(temp.str, ss.str);
-                                    }
-                                    else
-                                    {           cout << "\nString overflow";    exit(1);             }
-                                    return temp;
-                        }
+ protected:
+ enum { SZ = 80 }; //max size of Strings
+ char str[SZ]; //array
+public:
+ String() //constructor, no args
+ {
+  str[0] = '\0';
+ }
+ String(char s[]) //constructor, one arg
+ {
+  strcpy(str, s);
+ }
+ void display() //display string
+ {
+  cout << str;
+ }
+ void concat(String s2) //add arg string to
+ { //this string
+  if (strlen(str) + strlen(s2.str) < SZ)
+   strcat(str, s2.str);
+  else
+   cout << "\nString too long";
+ }
+};
+class Pstring :public String
+{
+public:
+ Pstring()
+ {}
+ Pstring(char s[])
+ {
+  int len = strlen(s);
+  if (len < SZ)
+   strcpy(str, s);
+  else
+  {
+   for (int i = 0; i < (SZ); i++)
+   {
+    str[i] = s[i];
+   }
+  }
+ }
 };
 int main()
 {
-            String s1 = "Merry Christmas! ", s2 = "Happy new year!", s3;
-            s1.display();                
-            s2.display();
-            s3 = s1 += s2;     
-            s3.display();
-            cout << endl;
+ Pstring s, s1;
+ s = "hello";
+ s1 = "This string will surely exceed the width of the screen, which is what the SZ constant represents.";
+ s.display();
+ cout << endl;
+ s1.display();
+ cout << endl;
+
 }
+

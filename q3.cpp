@@ -1,54 +1,93 @@
 #include<iostream>
-using namespace std;
-const char c= ':';
-class Time
+using  namespace std;
+class Publication
 {
-    int hrs,secs,min;
+	protected:
+	string Title;
+	float price;
+public:
+	void getdata()
+	{
+		cout<<"Enter the title of the music"<<endl;
+		cin>>Title;
+		cout<<"Enter the price of the track"<<endl;
+		cin>>price;
+	}
+		void display()
+		{
+			cout<<"Title : "<<Title<<endl;
+			cout<<"Price : "<<price;
+		}
+	
+};
+class Sales
+{
+    protected:
+    float s1,s2,s3;
     public:
-    Time():hrs(0),secs(0),min(0)
+    Sales():s1(0),s2(0),s3(0)
+    {}
+    void getdata()
     {
-
-    }
-    Time(int h,int m, int s)
-    {
-        hrs = h;
-        min = m;
-        secs = s;
+    cout<<"Enter the Ist month sale"<<endl;
+    cin>>s1;
+    cout<<"Enter the 2nd month sale"<<endl;
+    cin>>s2;
+    cout<<"Enter the 3rd month sale"<<endl;
+    cin>>s3;
     }
     void display()
     {
-        cout<<"Time = "<<hrs<<c<<min<<c<<secs;
+        cout<<"First month sale : "<<s1;
+        cout<<"Second month sale : "<<s2;
+        cout<<"Thrid month sale : "<<s3;
     }
-    Time operator + (Time t)
-    {
-      Time p;
-      p.secs = secs + t.secs;
-      p.min = min + t.min;
-      p.hrs = hrs + t.hrs;
-      if(p.secs>59)
-      {
-          p.secs = p.secs - 60;
-          p.min++;
-      }
-      if(p.min >59)
-      {
-          p.min = p.min -60;
-          p.hrs++;
-      }
-      if(p.hrs>12)
-      {
-          p.hrs = p.hrs -12;
-      }
-      return p;
-    }
-    
 };
+class Book : public Publication,public Sales
+{
+	int pagecount;
+    public:
+	void getdata()
+	{
+		Publication::getdata();
+        Sales::getdata();
+		cout<<"enter the pagrcount"<<endl;
+		cin>>pagecount;
+	}
+    void display()
+		{
+			Publication::display();
+            Sales::display();
+			cout<<"pagecount : "<<pagecount;
+		}
+	
 
+};
+class Tape: public Publication,public Sales
+{
+	float playingtime;
+  public:
+  	void getdata()
+  	{
+		  Publication::getdata();
+          Sales::getdata();
+  		cout<<"Enter the playing time "<<endl;
+  		cin>>playingtime;
+  	}
+  	void display()
+  	{
+		  Publication::display();
+          Sales::display();
+  		cout<<"playing time : "<<playingtime;
+  	}
+};
 int main()
 {
-    Time t1(12,50,00);
-    Time t2(3,50,00);
-    Time t3;
-    t3 = t1 + t2;
-    t3.display();
+	Publication p1;
+	Tape t1;
+	Book b1;
+	b1.getdata();
+	b1.display();
+	t1.getdata();
+	t1.display();
 }

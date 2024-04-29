@@ -1,124 +1,64 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-char ch;
-class Fraction
+////////////////////////////////////////////////////////////////
+class Counter
 {
-    int num,den;
-    public:
-    Fraction():num(0),den(0)
-    {}
-    void getdata()
-    {
-        cout<<"Enter the fraction in the form of a/b"<<endl;
-        cin>>num>>ch>>den;
-    }
-    void display()
-    {
-        cout<<num<<ch<<den;
-    }
-    bool operator == (Fraction f)
-    {
-        if(num==0&&den==1&&f.num==0&&f.den==1)
-        {
-            return true ;
-        }
-        else 
-        {
-            return false;
-        }
-    }
-    bool operator != (Fraction f)
-    {
-        if(num!=0&&den!=1&&f.num!=0&&f.den!=1)
-        {
-            return true ;
-        }
-        else 
-        {
-            return false;
-        }
-    }
-    void fractlowterms()
-    {
-      long tnum, tden, temp, gcd;
-
-	tnum = labs(num);	
-	tden = labs(den);	
-
-	if(tden == 0) {	
-		cout <<"Illegal fraction: division by 0";
-		exit(1);
-	} else if (tnum == 0) {		
-		num = 0; 
-		den = 1;
-		return;
-	}
-	
-	while(tnum != 0) {
-		if(tnum <tden) {	
-			temp = tnum;	
-			tnum = tden;
-			tden = temp;	
-		}
-		tnum = tnum - tden;		
-	}
-	gcd = tden;		
-	num = num/gcd;		
-	den = den/gcd;		
-	cout <<num <<"/" <<den;
-	cout <<endl;
-    }
-    
-
-Fraction operator + (Fraction f)
+protected:
+//NOTE: not private
+unsigned int count;
+//count
+public:
+Counter() : count()
+//constructor, no args
+{ }
+Counter(int c) : count(c)
+//constructor, one arg
+{ }
+unsigned int get_count() const
+//return count
+{ return count; }
+Counter operator ++(int)
 {
-    Fraction temp;
-    temp.num = (num*f.den) +(f.num*den);
-    temp.den = (den * f.den);
-    return temp;
+    return Counter(count++);
 }
-Fraction operator - (Fraction f)
-{
-    Fraction temp;
-    temp.num = (num*f.den) -(f.num*den);
-    temp.den = (den * f.den);
-    return temp;
-}
-Fraction operator * (Fraction f)
-{
-    Fraction temp;
-    temp.num = num * f.num;
-    temp.den = den * f.den;
-    return temp;
-}
-Fraction operator / (Fraction f)
-{
-    Fraction temp;
-    temp.num = (num*f.den);
-    temp.den = (den * f.num);
-    return temp;
-}
+Counter operator ++ ()
+//incr count (prefix)
+{ return Counter(++count); }
 };
+////////////////////////////////////////////////////////////////
+class CountDn : public Counter
+{
+public:
+CountDn() : Counter()
+//constructor, no args
+{ }
+CountDn(int c) : Counter(c)
+//constructor, 1 arg
+{ }
+CountDn operator --(int)
+{
+    return CountDn(count--);
+}
+CountDn operator -- ()
+//decr count (prefix)
+{ return CountDn(--count); }
+};
+////////////////////////////////////////////////////////////////
 int main()
 {
-    Fraction f1,f2,f3,f4;
-    f1.getdata();
-    f2.getdata();
-    if(f1==f2)
-    {
-        cout<<"termination";
-        exit(1);
-    }
-    if(f1!=f2)
-    {
-    f3=f1+f2;//addition
-    f3.fractlowterms();
-    f3=f1-f2;//subtraction
-    f3.fractlowterms();
-    f3=f1*f2;//multiplication
-    f3.fractlowterms();
-    f3=f1/f2;
-    f3.fractlowterms();
-    }
-
+    CountDn c1;
+CountDn c2(100);//class CountDn
+cout << "\nc1=" << c1.get_count();
+cout << "\nc2=" << c2.get_count();//display
+//displ
+++c1; ++c1; ++c1,c1++;
+cout << "\nc1=" << c1.get_count();//increment c1
+//display it
+--c2; --c2,c2--;
+cout << "\nc2=" << c2.get_count();//decrement c2
+//display it
+CountDn c3 = c2--;
+cout << "\nc3=" << c3.get_count();
+cout << endl;
+return 0;
 }
